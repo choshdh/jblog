@@ -29,17 +29,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/join" , method = RequestMethod.POST)
-	public String join(@RequestParam Map<String,String> map, Model model) { //request 파라미터를 맵으로 받아서 그냥 바로 보내버렸다 꿀....핵꿀...
+	public String join(@RequestParam Map<String,String> map, Model model) {
 		System.out.println("join 진입");
 		int result = 0;
-		try {
-			result = userService.join(map);
-		} catch (DuplicateKeyException e) {
-			model.addAttribute("failmsg", "이미 사용중인 아이디 입니다.");
-			return "redirect:/user/joinFail";
-		}
+		result = userService.join(map);
 		if(result == 1) {
-			return "redirect:/user/joinSuccess"; //mysiteFinal까지 적힌 상태이므로 이렇게 적는다
+			return "redirect:/user/joinSuccess";
 		}else {
 			return "redirect:/user/joinFail";
 		}
