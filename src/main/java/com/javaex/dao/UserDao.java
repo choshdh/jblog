@@ -1,6 +1,5 @@
 package com.javaex.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,7 +15,10 @@ public class UserDao {
 	SqlSession sqlSession;
 	
 	public int userInsert(Map<String,String> map) {
-		return sqlSession.insert("user.insert",map);
+			sqlSession.insert("user.insert",map);
+			System.out.println(map.get("userNo"));
+			int userNo = Integer.parseInt(map.get("userNo"));
+		return userNo;
 	}
 	
 	public UserVo userSelect(Map<String,String> map) {
@@ -31,16 +33,5 @@ public class UserDao {
 		return sqlSession.selectOne("user.idCheck", id);
 	}
 	
-	public int userUpdate(Map<String,String> map) {
-		return sqlSession.update("user.update", map);
-	}
-	
-	public int userDelete(Map<String,String> map) {
-		return sqlSession.delete("user.delete", map);
-	}
-	
-	public List<UserVo> userList() {
-		return sqlSession.selectList("user.list");
-	}
 	
 }

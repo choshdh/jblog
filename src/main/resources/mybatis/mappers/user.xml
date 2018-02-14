@@ -5,16 +5,19 @@
 
 	<select id="idCheck" parameterType="String" resultType="UserVo">
 		<![CDATA[
-			select userno, id, username, password, joindate
+			select userno userNo, id, username userName, password, joindate joinDate
 			from users
 			where id = #{id}
 		]]>
 	</select>
 	
 	<insert id="insert" parameterType="Map">
+		<selectKey keyProperty="userNo" resultType="int" order="BEFORE">
+			select seq_users_no.nextval userNo from dual
+		</selectKey>
 		<![CDATA[
 			insert into users
-			values(seq_users_no.nextval, #{name} , #{email} , #{password} , #{gender} )
+			values(#{userNo}, #{id} , #{userName} , #{password} , sysdate)
 		]]>	
 	</insert>
 	
@@ -30,28 +33,6 @@
 			select email, gender
 			from users
 			where no = #{no}
-		]]>
-	</select>
-	
-	<update id="update" parameterType="Map">
-		<![CDATA[
-			update users
-			set name = #{name} , password = #{password} , gender = #{gender}
-			where no = #{no} 
-		]]>
-	</update>
-	
-	<delete id="delete" parameterType="Map">
-		<![CDATA[
-			delete from users 
-			where no = #{no} and password = #{password}
-		]]>
-	</delete>
-	
-	<select id="list" resultType="UserVo">
-		<![CDATA[
-			select no ,name, email, password, gender
-			from users
 		]]>
 	</select>
 

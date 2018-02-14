@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.UserService;
-import com.javaex.vo.UserVo;
 
 @Controller
 @RequestMapping("/user")
@@ -29,7 +27,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/join" , method = RequestMethod.POST)
-	public String join(@RequestParam Map<String,String> map, Model model) {
+	public String join(@RequestParam Map<String,String> map, Model model) {//param(UserName, id, password, agree-prov)
 		System.out.println("join 진입");
 		int result = 0;
 		result = userService.join(map);
@@ -63,17 +61,17 @@ public class UserController {
 		System.out.println("login 진입");
 		System.out.println("로그인 요청 : " + map.get("id") + "/" + map.get("password"));
 
-		UserVo uvo = userService.login(map);
+//		UserVo uvo = userService.login(map);
 		
-		if(uvo == null) {
-			System.out.println("로그인 실패");
-			return "redirect:/user/loginForm?result=fail";
-		}else {
-			System.out.println("로그인 성공");
-			session.setAttribute("authUser", uvo);
-			
+//		if(uvo == null) {
+//			System.out.println("로그인 실패");
+//			return "redirect:/user/loginForm?result=fail";
+//		}else {
+//			System.out.println("로그인 성공");
+//			session.setAttribute("authUser", uvo);
+//			
 			return "redirect:/";
-		}
+//		}
 	}
 	
 	@RequestMapping("/logout")

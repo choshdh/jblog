@@ -22,8 +22,8 @@ public class UserService {
 	@Transactional
 	public int join(Map<String,String> map) {
 		int userNo = userDao.userInsert(map);
-		blogDao.blogInsert(new BlogVo(userNo,"기본블로그","default logo"));
-		return 1;
+		int result = blogDao.blogInsert(new BlogVo(userNo,"기본블로그","default logo"));
+		return result;
 	}
 	
 //	public UserVo login(Map<String,String> map) {
