@@ -1,5 +1,6 @@
 package com.javaex.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,15 @@ import com.javaex.vo.BlogVo;
 public class BlogService {
 
 	@Autowired
-	BlogDao bdao;
+	BlogDao bDao;
 	
 	public int blogInsert(BlogVo bvo) {
-		return bdao.blogInsert(bvo);
+		return bDao.blogInsert(bvo);
+	}
+
+	public BlogVo myblog(String id) {
+		return bDao.blogSelect(id);
+		
 	}
 
 }

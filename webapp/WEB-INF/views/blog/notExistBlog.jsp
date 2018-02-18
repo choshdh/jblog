@@ -15,11 +15,9 @@
  		<!-- /메인해더 -->
 		
 		<p class="welcome-message">
-			<span> 회원가입 실패
-				   ${failmsg }
-		    </span>
+			<span> 존재하지 않는 블로그 입니다.</span>
 			<br><br>
-			<a href="${pageContext.request.contextPath}">로그인 하기</a>
+			<a href="${pageContext.request.contextPath}/user/loginform">로그인 하기</a>
 		</p>
 		
 	</div>

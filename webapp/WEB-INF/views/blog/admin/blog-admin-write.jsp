@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 </head>
 <body>
 
@@ -19,27 +20,25 @@
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
-					<li><a href="">기본설정</a></li>
-					<li><a href="">카테고리</a></li>
-					<li class="selected"><a href="">글작성</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}">내 블로그</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
+					<li class="selected"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-				
-				<form action="" method="post">
+				<form action="${pageContext.request.contextPath}/${authUser.id}/admin/postadd" method="post">
 			      	<table class="admin-cat-write">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
-			      				<input type="text" size="60" name="title">
-				      			<select name="category">
-				      				<option>미분류</option>
-				      				<option>자바</option>
+			      				<input type="text" size="60" name="postTitle">
+				      			<select id="category" name="cateNo">
 				      			</select>
 				      		</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">내용</td>
-			      			<td><textarea name="content"></textarea></td>
+			      			<td><textarea name="postContent"></textarea></td>
 			      		</tr>
 			      		<tr>
 			      			<td>&nbsp;</td>
@@ -56,4 +55,35 @@
 		
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${authUser.id}/admin/catelist",
+			type : "post",
+						
+			dataType : "json",
+			success : function(cList){ /*성공시 처리해야될 코드 작성*/
+				for(var i=0; i<cList.length; i++){
+					render(cList[i]);
+				}
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+		});
+	});
+	
+	$("#category").on("click",function(){
+		/* var cateNo = $(this).find("option:selected").data("cateno"); 1.select 태그의 선택된 옵션 value 값 가져오는 방법 */ 
+		var cateNo = $(this).val(); // 2.select 태그의 선택된 옵션 value 값을 가져오는 방법
+		console.log(cateNo);
+	});
+	
+	function render(cVo){
+		str = "<option id='b' value='"+cVo.cateNo+"'>"+cVo.cateName+"</option>"; // option 태그에 value 속성을 사용 하지 않으면 태그안에 있는 값을 자동으로 사용하도록 설계 되어있는 듯 하다
+		
+		$("#category").append(str);
+	}
+</script>
 </html>

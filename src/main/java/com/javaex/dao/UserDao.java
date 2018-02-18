@@ -22,6 +22,7 @@ public class UserDao {
 	}
 	
 	public UserVo userSelect(Map<String,String> map) {
+		System.out.println("dao 로그인 진입");
 		return sqlSession.selectOne("user.select", map);
 	}
 	

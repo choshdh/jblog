@@ -12,7 +12,7 @@
 	</select>
 	
 	<insert id="insert" parameterType="Map">
-		<selectKey keyProperty="userNo" resultType="int" order="BEFORE">
+		<selectKey keyProperty="userNo" resultType="String" order="BEFORE">
 			select seq_users_no.nextval userNo from dual
 		</selectKey>
 		<![CDATA[
@@ -23,8 +23,8 @@
 	
 	<select id="select" parameterType="Map" resultType="UserVo">
 		<![CDATA[
-			select no, name
-			from users where email = #{email} and password = #{password}
+			select userno userNo, username userName
+			from users where id = #{id} and password = #{password}
 		]]>
 	</select>
 	

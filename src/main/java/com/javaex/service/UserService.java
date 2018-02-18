@@ -22,17 +22,14 @@ public class UserService {
 	@Transactional
 	public int join(Map<String,String> map) {
 		int userNo = userDao.userInsert(map);
-		int result = blogDao.blogInsert(new BlogVo(userNo,"기본블로그","default logo"));
+		int result = blogDao.blogInsert(new BlogVo(userNo,"안녕하세요 " + map.get("userName") + "의 블로그에 오신것을 환영 합니다.","spring-logo.jpg"));
 		return result;
 	}
 	
-//	public UserVo login(Map<String,String> map) {
-//		return userDao.userSelect(map);
-//	}
-	
-//	public UserVo modifyform(int no) {
-//		return userDao.userSelectByNo(no);
-//	}
+	public UserVo login(Map<String,String> map) {
+		System.out.println("서비스 로그인 진입");
+		return userDao.userSelect(map);
+	}
 	
 	public boolean idCheck(String id) {
 		boolean result;
@@ -45,11 +42,4 @@ public class UserService {
 		return result;
 	}
 	
-//	public int modify(Map<String,String> map) {
-//		return userDao.userUpdate(map);
-//	}
-//	
-//	public int delete(Map<String,String> map) {
-//		return userDao.userDelete(map);
-//	}
 }

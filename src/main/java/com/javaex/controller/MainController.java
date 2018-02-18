@@ -20,6 +20,7 @@ public class MainController {
 		System.out.println("Scheme : " + request.getScheme());
 		System.out.println("ContextPath : " + request.getContextPath());
 		System.out.println("URI : " + request.getRequestURI());
+		System.out.println("URL : " + request.getRequestURL());
 		
 		return "main/index";
 	}

@@ -27,6 +27,7 @@
 			<label class="block-label" for="id">아이디</label>
 			<input id="id" type="text" name="id"  value="" />
 			<input id="btn-checkid" type="button" value="id 중복체크">
+			<input id="idcheckresult" type="text" style="border-width : 0px ; font-weight:bold;" readonly="readonly" value="중복 체크가 필요합니다.">
 			<img id="img-checkid" style="visibility: hidden;" src="${pageContext.request.contextPath}/assets/images/check.png">
 			<p class="form-error">
 			</p>
@@ -40,7 +41,7 @@
 				<label class="l-float">서비스 약관에 동의합니다.</label>
 			</fieldset>
 
-			<input id="submit" type="button" value="가입하기">
+			<input id="send" type="button" value="가입하기"> <!-- submit() 함수를 사용하기 위해서는 절대 id 값을 submit 이라고 선언 해서는 안된다 ************ -->
 
 		</form>
 	</div>
@@ -64,8 +65,12 @@
 				dataType : "json",
 				success : function(result){ /*성공시 처리해야될 코드 작성*/
 					if(result == true){
+						$("#idcheckresult").css("color","blue");
+						$("#idcheckresult").val("사용가능한 이메일입니다.");
 						$("#img-checkid").css("visibility","visible");
 					}else{
+						$("#idcheckresult").css("color","red");
+						$("#idcheckresult").val("사용중인 이메일입니다.");
 						$("#img-checkid").css("visibility","hidden");
 					}
 				},
@@ -79,10 +84,12 @@
 		});
 		
 		$("#id").keydown(function(){
+			$("#idcheckresult").css("color","black");
+			$("#idcheckresult").val("중복 체크가 필요합니다.");
 			$("#img-checkid").css("visibility","hidden");
 		});
 		
-		$("#submit").on("click",function(){
+		$("#send").on("click",function(){
 			var id = $("#id").val();
 			var userName = $("#userName").val();
 			var password = $("#password").val();
@@ -93,9 +100,8 @@
 				console.log(password);
 				console.log(agreeProv);
 				alert("빠짐없이 모두 기입 해주십시오");
-				return false;
 			}else{
-				joinform.submit();
+				joinform.submit();  //submit() 함수를 이용하기위해서는 절대 id 값에 submit 을 사용 해서는 안된다
 			}
 		});
 		

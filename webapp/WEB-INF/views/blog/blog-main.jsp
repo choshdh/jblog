@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 </head>
 <body>
 
@@ -26,12 +27,8 @@
 						 스프링 캠프라는 컨퍼런스에 찾아온 낯선 개발자들 사이에서 자신을 소개하고 이야기를 나누고 웃고 즐기며면서 어색함을 떨쳐내고 우리가 같은 분야에서 함께 일하고 있는 친구이자 동료라는 것을 인지하고 새로운 인연의 고리를 연결하고 이어갈 수 있는 순간으로 만들어가려 합니다.
 					<p>
 				</div>
+				
 				<ul class="blog-list">
-					<li><a href="">Spring Camp 2016 참여기</a> <span>2015/05/02</span>	</li>
-					<li><a href="">Spring Boot 사용법 정리</a> <span>2015/05/02</span>	</li>
-					<li><a href="">Spring Security 설정법</a> <span>2015/05/02</span>	</li>
-					<li><a href="">JPA + Hinernate</a> <span>2015/05/02</span>	</li>
-					<li><a href="">AOP 활용하기 - DAO 실행시간 측정하기</a> <span>2015/05/02</span>	</li>
 				</ul>
 			</div>
 		</div>
@@ -44,18 +41,127 @@
 
 		<div id="navigation">
 			<h2>카테고리</h2>
-			<ul>
-				<li><a href="">닥치고 스프링</a></li>
-				<li><a href="">스프링 스터디</a></li>
-				<li><a href="">스프링 프로젝트</a></li>
-				<li><a href="">기타</a></li>
+			<ul id="catelist">
+				<li data-no="-1">전체</li>
+				
 			</ul>
 		</div>
-		
+		<div style="font-weight:bold; padding:10px; background-color:white; border:1px solid #5D5D5D; border-radius: 5px 5px 5px 5px; width:300px; height:100px; z-index:10; display:none; z-index:10;" id=hdiv></div>
 		<!-- 푸터 -->
 		<c:import url="/WEB-INF/views/blog/includes/blog-footer.jsp"></c:import>
 		<!-- 푸터 -->
 		
 	</div>
 </body>
+
+<script type="text/javascript">
+	var pListSave; //포스트 리스트
+	var cListSave; //카테고리 리스트
+	var pTotal; //전체 포스트 수
+	var cTotal; //전체 카테고리 수
+	$(document).ready(function(){
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${requestScope.id}/admin/postlist",
+			type : "post",		
+			
+			dataType : "json",
+			success : function(pList){ /*성공시 처리해야될 코드 작성*/
+				pListSave = pList;
+				pTotal = pList.length;
+				for(var i=0; i<pList.length; i++){
+					if(i==0){
+						$(".blog-content").children()[0].innerHTML=pList[0].postTitle;
+						$(".blog-content").children()[1].innerHTML=pList[0].postContent;
+					}
+					postrender(pList[i] , i);
+				}
+			
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+		});
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${requestScope.id}/admin/catelist",
+			type : "post",		
+			
+			dataType : "json",
+			success : function(cList){ /*성공시 처리해야될 코드 작성*/
+				cListSave = cList;
+				cTotal = cList.length;
+				for(var i=0; i<cList.length; i++){
+					caterender(cList[i] , i);
+				}
+			
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+		});
+		
+	});
+	
+	//포스트 그리기
+	function postrender(pVo , i){
+		str = "<li data-no='"+i+"'>"+pVo.postTitle+"<span>"+pVo.regDate+"</span></li>";
+		
+		$(".blog-list").append(str);
+	}
+	
+	//카테고리 그리기
+	function caterender(cVo , i){
+		str = "<li data-no='"+i+"'>"+cVo.cateName+"</li>";
+		
+		$("#catelist").append(str);
+	}
+	
+	//클릭한 포스트 내용 보여주기
+	$(".blog-list").on("click","li", function(){
+		var index = $(this).data("no");
+		$(".blog-content").children()[0].innerHTML=pListSave[index].postTitle;
+		$(".blog-content").children()[1].innerHTML=pListSave[index].postContent;
+	});
+		
+	//카테고리 마우스 hover 시
+	//동적으로 생성된 li 객체에  hover 이벤트를 사용 할 수 있는 방법을 찾아도 나와있지를 않아서 mouse 이벤트 2개를 동시에 넣고 발생되는 이벤트에 따라서 css 추가함
+	$("#catelist").delegate("li","mouseenter mouseleave", function(event) { 
+		x = $(this).position().left;
+		y = $(this).position().top;
+		var index = $(this).data("no");
+		if(index==-1){
+			$("#hdiv")[0].innerHTML="전체 포스트 수 : "+pTotal;
+		}else{
+			$("#hdiv")[0].innerHTML="카테고리 : "+cListSave[index].cateName+"<br>카테고리 설명 : "+cListSave[index].description+"<br>카테고리 포스트 수 : "+cListSave[index].postCnt;
+		}
+	    $("#hdiv").css({"display":"block","position":"absolute","left":x+100,"top":y}).toggle( event.type === 'mouseenter' );  
+	});
+	
+	//카테고리 클릭시 해당 포스트만 보여주기
+	$("#catelist").delegate("li","click", function(){
+		$(".blog-list").children().remove();
+		var index = $(this).data("no");
+		if(index==-1){
+			for(var i=0; i<pListSave.length; i++){
+				if(i==0){
+					$(".blog-content").children()[0].innerHTML=pListSave[0].postTitle;
+					$(".blog-content").children()[1].innerHTML=pListSave[0].postContent;
+				}
+				postrender(pListSave[i] , i);
+			}
+		}else{
+			for(var i=0; i<pListSave.length; i++){
+				if(cListSave[index].cateNo==pListSave[i].cateNo){
+					postrender(pListSave[i] , i);
+				}
+			}
+		}
+		
+		
+	});
+
+</script>
 </html>
