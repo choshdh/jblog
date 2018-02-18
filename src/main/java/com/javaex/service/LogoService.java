@@ -4,26 +4,47 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.javaex.dao.FileDao;
+import com.javaex.dao.LogoDao;
 import com.javaex.vo.FileVo;
 
 @Service
-public class FileUploadService {
-	
-	@Autowired
-	FileDao fDao;
+public class LogoService {
 
-	public String restore(MultipartFile file) {
+	@Autowired
+	LogoDao lDao;
+	
+	public String logoSelect(String id) {
+		return lDao.logoSelect(id);
+	}
+
+	@Transactional
+	public String logoChange(int userNo, MultipartFile file) {
+		String fileSaveName = logoRestore(file);
+		
+		if(fileSaveName.equals("spring-logo.jpg")){
+			return "spring-logo.jpg";
+		}else {
+			Map<String,Object> idAndFileSaveName = new HashMap<String,Object>();
+			idAndFileSaveName.put("userNo", userNo);
+			idAndFileSaveName.put("fileSaveName", fileSaveName);
+			lDao.logoChange(idAndFileSaveName);
+			return fileSaveName;
+		}
+	}
+	
+	public String logoRestore(MultipartFile file) {
 		//파일 정보 수집
 		//저장 폴더
-		String fielSaveDir = "D:\\javaStudy\\upload";
+		String fielSaveDir = "c:\\cho\\upload";
 		
 		//원파일 이름
 		String fileOriginalName= file.getOriginalFilename();
@@ -45,6 +66,7 @@ public class FileUploadService {
 		long fileSize = file.getSize();
 		System.out.println(fileSize);
 		
+		
 		//파일 카피
 		try {
 			byte[] fileData = file.getBytes();
@@ -58,21 +80,18 @@ public class FileUploadService {
 			}
 			
 			FileVo fvo = new FileVo(fielSaveDir,fileOriginalName,fileExName,fileSaveName,filePath,fileSize);
-			int result = fDao.fileInsert(fvo);
-			System.out.println("처리 결과 : " + result);
+			int result = lDao.logoFileInsert(fvo);
+			System.out.println("logofiledata DB 저장 처리 결과 : " + result);
+			
+			if(result==0) {
+				fileSaveName = "spring-logo.jpg";
+			}
 			
 		}catch (IOException e) {
 			e.printStackTrace();
+			fileSaveName = "spring-logo.jpg";
 		}
 		
 		return fileSaveName;
-	}
-	
-	public List<FileVo> list() {
-		return fDao.fileList();
-	}
-	
-	public int delete(int fileNo) {
-		return fDao.filedelete(fileNo);
 	}
 }

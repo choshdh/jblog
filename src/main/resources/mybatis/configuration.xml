@@ -14,7 +14,7 @@
     <!-- 사용할 쿼리가 적혀있는 페이지 위치를 세팅 -->
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
-		<mapper resource="mybatis/mappers/file.xml" />
+		<mapper resource="mybatis/mappers/logo.xml" />
 		<mapper resource="mybatis/mappers/blog.xml" />
 		<mapper resource="mybatis/mappers/cate.xml" />
 		<mapper resource="mybatis/mappers/post.xml" />

@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 </head>
 <body>
 
@@ -24,7 +25,7 @@
 					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-				<form action="${pageContext.request.contextPath}/${authUser.id}/admin/modify" method="post" enctype="multipart/form-data">
+				<form id="logochangeform" action="${pageContext.request.contextPath}/${authUser.id}/admin/logochange" method="post" enctype="multipart/form-data">
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>
@@ -32,7 +33,7 @@
 			      		</tr>
 			      		<tr>
 			      			<td class="t">로고이미지</td>
-			      			<td><img src="${pageContext.request.contextPath}/upload/${bVo.logoFile}"></td>      			
+			      			<td id="logoimg"></td>      			
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
@@ -40,7 +41,7 @@
 			      		</tr>           		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
-			      			<td class="s"><input type="submit" value="기본설정 변경"></td>      			
+			      			<td class="s"><input id="logochange" type="button" value="기본설정 변경"></td>      			
 			      		</tr>           		
 			      	</table>
 				</form>
@@ -53,4 +54,47 @@
 	
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${authUser.id}/admin/logoselect",
+			type : "post",
+			contentType : "application/json",
+			data : "${authUser.id}",
+			
+			dataType : "json",
+			success : function(url){ /*성공시 처리해야될 코드 작성*/
+				$("#logoimg")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+			
+			
+		});
+	});
+	
+	$("#logochange").on("click", function(){
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${authUser.id}/admin/logochange",
+			type : "post",
+			enctype: "multipart/form-data",
+			data : $("#logochangeform"),
+			
+			dataType : "json",
+			success : function(url){ /*성공시 처리해야될 코드 작성*/
+				$("#logoimg")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+			
+		});
+		
+	});
+	
+	
+</script>
 </html>
