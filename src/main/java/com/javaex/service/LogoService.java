@@ -30,21 +30,18 @@ public class LogoService {
 	public String logoChange(int userNo, MultipartFile file) {
 		String fileSaveName = logoRestore(file);
 		
-		if(fileSaveName.equals("spring-logo.jpg")){
-			return "spring-logo.jpg";
-		}else {
-			Map<String,Object> idAndFileSaveName = new HashMap<String,Object>();
-			idAndFileSaveName.put("userNo", userNo);
-			idAndFileSaveName.put("fileSaveName", fileSaveName);
-			lDao.logoChange(idAndFileSaveName);
-			return fileSaveName;
-		}
+		Map<String,Object> idAndFileSaveName = new HashMap<String,Object>();
+		idAndFileSaveName.put("userNo", userNo);
+		idAndFileSaveName.put("fileSaveName", fileSaveName);
+		lDao.logoChange(idAndFileSaveName);
+		return fileSaveName;
+		
 	}
 	
 	public String logoRestore(MultipartFile file) {
 		//파일 정보 수집
 		//저장 폴더
-		String fielSaveDir = "c:\\cho\\upload";
+		String fielSaveDir = "d:\\javastudy\\upload";
 		
 		//원파일 이름
 		String fileOriginalName= file.getOriginalFilename();
@@ -81,15 +78,11 @@ public class LogoService {
 			
 			FileVo fvo = new FileVo(fielSaveDir,fileOriginalName,fileExName,fileSaveName,filePath,fileSize);
 			int result = lDao.logoFileInsert(fvo);
-			System.out.println("logofiledata DB 저장 처리 결과 : " + result);
 			
-			if(result==0) {
-				fileSaveName = "spring-logo.jpg";
-			}
+			System.out.println("logofiledata DB 저장 처리 결과 : " + result);
 			
 		}catch (IOException e) {
 			e.printStackTrace();
-			fileSaveName = "spring-logo.jpg";
 		}
 		
 		return fileSaveName;

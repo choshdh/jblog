@@ -29,7 +29,7 @@
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title" value="${bVo.blogTitle }"></td>
+			      			<td><input type="text" size="40" id="blog-title" name="title" value="${bVo.blogTitle }"></td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">로고이미지</td>
@@ -37,11 +37,11 @@
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
-			      			<td><input type="file" name="logo-file"></td>      			
+			      			<td><input type="file" id="logofile" name="logo-file"></td>      			
 			      		</tr>           		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>
-			      			<td class="s"><input id="logochange" type="button" value="기본설정 변경"></td>      			
+			      			<td class="s"><input id="infochange" type="button" value="기본설정 변경"></td>      			
 			      		</tr>           		
 			      	</table>
 				</form>
@@ -57,7 +57,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
-			url : "${pageContext.request.contextPath}/${authUser.id}/admin/logoselect",
+			url : "${pageContext.request.contextPath}/${authUser.id}/logoselect",
 			type : "post",
 			contentType : "application/json",
 			data : "${authUser.id}",
@@ -71,20 +71,37 @@
 				console.error(status + " : " + error);
 			}
 			
-			
 		});
 	});
 	
-	$("#logochange").on("click", function(){
+	$("#infochange").on("click", function(){
+		var formData = new FormData(); //ajax를 통해서 파일을 전송하기 위해서 자바스크립트 내장 객체인 FormData 객체 생성
+		
+		console.log(document.getElementById("logofile")); //html 태그 형식 객체
+		console.log($("#logofile")); //jquery 객체
+		console.log($("#logofile")[0]); //html 태그 형식 객체 배열 0번째가 순수 html 객체(돔형) 를 담고있다...
+		
+		
+		//타이틀 수정
+		var blogtitle = $("#blog-title").val()
+		formData.append("blog-title",blogtitle);
+
 		$.ajax({
-			url : "${pageContext.request.contextPath}/${authUser.id}/admin/logochange",
+			url : "${pageContext.request.contextPath}/${authUser.id}/admin/blogupdate",
 			type : "post",
-			enctype: "multipart/form-data",
-			data : $("#logochangeform"),
+			data : formData,
+			contentType:false,
+	        processData:false,
+	        enctype : "multipart/form-data",
 			
 			dataType : "json",
-			success : function(url){ /*성공시 처리해야될 코드 작성*/
-				$("#logoimg")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+			success : function(result){ /*성공시 처리해야될 코드 작성*/
+				if(result==1){
+					$("#headertitle")[0].innerHTML=blogtitle;
+					console.log("블로그 타이틀 수정 성공")
+				}else{
+					console.log("블로그 타이틀 수정 실패");
+				}
 			},
 			
 			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
@@ -93,6 +110,38 @@
 			
 		});
 		
+		
+		//로고 수정
+		//formdata 클래스 객체에 담을때는 jquery 객체가 아닌 html 태그 형식 객체로 담아야 하는 것 같다.
+		//formdata 클래스 객체에 append로 파일을 실어 보내지 않으면 계속 400 오류가 발생한다. get 방식 메소드를 쓰고있다는 말도안되는 오류.....
+		//페이지 뿐만아니라 정상적으로 넘겨지는 파일이 없어도 발생하는 오류인거같다 삽질 시간낭비....우와웅
+		var logofile = $("#logofile")[0].files[0];
+		
+		if(logofile==null){
+			console.log("수정할 로고 파일 없음");
+		}else{
+			formData.append("logo-file",logofile); //앞에 파라미터 이름
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/${authUser.id}/admin/logochange",
+				type : "post",
+				data : formData,
+				contentType:false,
+		        processData:false,
+		        enctype : "multipart/form-data",
+				
+				dataType : "json",
+				success : function(url){ /*성공시 처리해야될 코드 작성*/
+					$("#logoimg")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+				},
+				
+				error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+					console.error(status + " : " + error);
+				}
+				
+			});
+		}
+	
 	});
 	
 	

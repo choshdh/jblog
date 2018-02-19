@@ -27,13 +27,5 @@
 			from users where id = #{id} and password = #{password}
 		]]>
 	</select>
-	
-	<select id="selectByNo" parameterType="int" resultType="UserVo">
-		<![CDATA[
-			select email, gender
-			from users
-			where no = #{no}
-		]]>
-	</select>
 
 </mapper>

@@ -34,8 +34,8 @@
 		</div>
 
 		<div id="extra">
-			<div class="blog-logo">
-				<img src="/jblog/assets/images/spring-logo.jpg">
+			<div id="bloglogo" class="blog-logo" style="height: 200px;">
+				
 			</div>
 		</div>
 
@@ -103,6 +103,23 @@
 			}
 		});
 		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${requestScope.id}/logoselect",
+			type : "post",
+			contentType : "application/json",
+			data : "${requestScope.id}",
+			
+			dataType : "json",
+			success : function(url){ /*성공시 처리해야될 코드 작성*/
+				$("#bloglogo")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+			
+		});
+		
 	});
 	
 	//포스트 그리기
@@ -144,17 +161,23 @@
 	$("#catelist").delegate("li","click", function(){
 		$(".blog-list").children().remove();
 		var index = $(this).data("no");
-		if(index==-1){
+		if(index==-1){ //전체 카테고리 선택시
 			for(var i=0; i<pListSave.length; i++){
-				if(i==0){
+				if(i==0){ //blog-content 내용을 해당 카테고리의 첫번째글로 업데이트 해주기 
 					$(".blog-content").children()[0].innerHTML=pListSave[0].postTitle;
 					$(".blog-content").children()[1].innerHTML=pListSave[0].postContent;
 				}
 				postrender(pListSave[i] , i);
 			}
-		}else{
+		}else{ //다른 카테고리 선택시
+			var printfirst = 1;
 			for(var i=0; i<pListSave.length; i++){
 				if(cListSave[index].cateNo==pListSave[i].cateNo){
+					if(printfirst ==1){ //blog-content 내용을 해당 카테고리의 첫번째글로 업데이트 해주기 
+						$(".blog-content").children()[0].innerHTML=pListSave[i].postTitle;
+						$(".blog-content").children()[1].innerHTML=pListSave[i].postContent;
+						printfirst = -99999;
+					}
 					postrender(pListSave[i] , i);
 				}
 			}

@@ -7,44 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.javaex.service.LogoService;
+import com.javaex.service.BlogService;
 import com.javaex.vo.UserVo;
 
 @Controller
-public class ApiLogoController {
-	
+public class ApiBlogController {
+
 	@Autowired
-	LogoService lService;
+	BlogService bService;
 	
-	//현재 로고 파일 리턴
 	@ResponseBody
-	@RequestMapping(value="/{id}/logoselect" ,method = RequestMethod.POST)
-	public String logoSelect(@PathVariable String id) {
-		System.out.println("/{id}/logoselect 진입");
-		String url = "upload/" + lService.logoSelect(id); //upload 로 맵핑 해놓았기 때문에
-		System.out.println(url);
-		return url;
-	}
-	
-	//로고 변경후 변경된 로고 파일 리턴
-	@ResponseBody
-	@RequestMapping(value="/{id}/admin/logochange" ,method = RequestMethod.POST)
-	public String logoChange(@PathVariable String id, @RequestParam("logo-file") MultipartFile file, HttpSession session, HttpServletRequest request) {
-		System.out.println("/{id}/admin/logochange 진입");
+	@RequestMapping("/{id}/admin/blogupdate")
+	public int blogUpdate(@PathVariable String id, @RequestParam("blog-title") String blogTitle, HttpSession session, HttpServletRequest request) {
+		System.out.println("/{id}/admin/blogupdate 진입");
 		String checkResult = loginUserCheck(id, session, request);
-		String fileSaveName = "spring-logo.jpg";
+		int result = 0;
 		if(checkResult.equals("ok")) {
 			UserVo loginUser = (UserVo) session.getAttribute("authUser");
-			fileSaveName = lService.logoChange(loginUser.getUserNo(),file);
+			result = bService.blogUpdate(loginUser.getUserNo(),blogTitle);
 		}
-		
-		String url = "upload/" + fileSaveName; //upload 로 맵핑 해놓았기 때문에
-		return url;
+
+		return result;
 	}
 	
 	//접근 유저 체크
@@ -74,5 +60,4 @@ public class ApiLogoController {
 		System.err.println("ContextPath : " + request.getContextPath());
 		System.err.println("URI : " + request.getRequestURI());
 	}
-	
 }

@@ -49,6 +49,7 @@
 </body>
 
 	<script type="text/javascript">
+		var idcheckresult = 0;
 		$("#btn-checkid").on("click",function(){
 			var id = $("#id").val();
 			console.log("id 중복 체크 버튼");
@@ -68,6 +69,7 @@
 						$("#idcheckresult").css("color","blue");
 						$("#idcheckresult").val("사용가능한 이메일입니다.");
 						$("#img-checkid").css("visibility","visible");
+						idcheckresult = 1;
 					}else{
 						$("#idcheckresult").css("color","red");
 						$("#idcheckresult").val("사용중인 이메일입니다.");
@@ -87,6 +89,7 @@
 			$("#idcheckresult").css("color","black");
 			$("#idcheckresult").val("중복 체크가 필요합니다.");
 			$("#img-checkid").css("visibility","hidden");
+			idcheckresult = 0;
 		});
 		
 		$("#send").on("click",function(){
@@ -101,7 +104,11 @@
 				console.log(agreeProv);
 				alert("빠짐없이 모두 기입 해주십시오");
 			}else{
-				joinform.submit();  //submit() 함수를 이용하기위해서는 절대 id 값에 submit 을 사용 해서는 안된다
+				if(idcheckresult==0){
+					alert("아이디 중복 체크가 필요합니다.");
+				}else{					
+					joinform.submit();  //submit() 함수를 사용하기위해서는 절대 id값과 중복되는 name속성 값이 존재 해서는안된다
+				}
 			}
 		});
 		

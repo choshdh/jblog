@@ -17,5 +17,13 @@
 		]]>
 	</select>
 	
+	<update id="update" parameterType="Map">
+		<![CDATA[
+			update blog
+			set blogtitle = #{blogTitle}
+			where userNo = #{userNo}
+		]]>
+	</update>
+	
 
 </mapper>

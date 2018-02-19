@@ -26,10 +26,6 @@ public class UserDao {
 		return sqlSession.selectOne("user.select", map);
 	}
 	
-	public UserVo userSelectByNo(int no) {
-		return sqlSession.selectOne("user.selectByNo", no);
-	}
-	
 	public UserVo userIdCheck(String id) {
 		return sqlSession.selectOne("user.idCheck", id);
 	}

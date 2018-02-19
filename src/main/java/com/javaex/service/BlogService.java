@@ -1,6 +1,9 @@
 package com.javaex.service;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,13 @@ public class BlogService {
 	public BlogVo myblog(String id) {
 		return bDao.blogSelect(id);
 		
+	}
+
+	public int blogUpdate(int userNo, String blogTitle) {
+		Map<String,Object> userNoAndBlogTitle = new HashMap<String, Object>();
+		userNoAndBlogTitle.put("userNo", userNo);
+		userNoAndBlogTitle.put("blogTitle", blogTitle);
+		return bDao.blogUpdate(userNoAndBlogTitle);
 	}
 
 }

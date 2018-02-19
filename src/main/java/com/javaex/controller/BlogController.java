@@ -84,7 +84,7 @@ public class BlogController {
 		}else {
 			int result = pService.postAdd(pVo);
 			System.out.println("post 등록 처리 결과 : " + result);
-			return "redirect:/{id}";
+			return "redirect:/{id}/admin/write";
 		}
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

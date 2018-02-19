@@ -60,6 +60,7 @@
 	</div>
 </body>
 <script type="text/javascript">
+	var cListSave;
 	$(document).ready(function(){
 		
 		$.ajax({
@@ -68,6 +69,7 @@
 						
 			dataType : "json",
 			success : function(cList){ /*성공시 처리해야될 코드 작성*/
+				cListSave = cList;
 				for(var i=0; i<cList.length; i++){
 					render(cList[i]);
 				}
@@ -94,6 +96,7 @@
 				if(cVo==null){
 					alert("잘못된 접근입니다.");
 				}else{
+					cListSave.push(cVo);
 					render(cVo);
 				}
 			},
@@ -109,27 +112,33 @@
 	
 	$("#catelist").on("click","#del",function(){
 		var no = $(this).parent().data("no");
-		$.ajax({
-			url : "${pageContext.request.contextPath}/${authUser.id}/admin/catedel",
-			type : "post",
-			contentType : "application/json",
-			data : JSON.stringify(no) ,        
-			dataType : "json",
-			success : function(result){ /*성공시 처리해야될 코드 작성*/
-				if(result==1){
-					console.log("카테고리 삭제 성공");
-					$("[data-no="+no+"]").remove();
-				}else{
-					console.log("카테고리 삭제 실패");
+		
+		if($(this).parent().children()[3].innerHTML ==0 ){ //클릭한 이미지의 부모의 3번째 자식 : 포스트 수가 0 이면 실행
+			$.ajax({
+				url : "${pageContext.request.contextPath}/${authUser.id}/admin/catedel",
+				type : "post",
+				contentType : "application/json",
+				data : JSON.stringify(no) ,        
+				dataType : "json",
+				success : function(result){ /*성공시 처리해야될 코드 작성*/
+					if(result==1){
+						console.log("카테고리 삭제 성공");
+						$("[data-no="+no+"]").remove();
+					}else{
+						console.log("카테고리 삭제 실패");
+					}
+				
+				
+				},
+				
+				error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+					console.error(status + " : " + error);
 				}
-			
-			
-			},
-			
-			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
-				console.error(status + " : " + error);
-			}
-		});
+			});
+		}else{
+			alert("해당 카테고리에 포스트가 있어서 삭제 할 수없습니다.");
+		}
+		
 	});
 	
 	
