@@ -41,7 +41,7 @@ public class LogoService {
 	public String logoRestore(MultipartFile file) {
 		//파일 정보 수집
 		//저장 폴더
-		String fielSaveDir = "d:\\javastudy\\upload";
+		String fielSaveDir = "d:/javastudy/upload";
 		
 		//원파일 이름
 		String fileOriginalName= file.getOriginalFilename();
@@ -56,7 +56,7 @@ public class LogoService {
 		System.out.println(fileSaveName);
 		
 		//파일 위치(패스)
-		String filePath = fielSaveDir + "\\" + fileSaveName;
+		String filePath = fielSaveDir + "/" + fileSaveName;
 		System.out.println(filePath);
 		
 		//파일사이즈
@@ -67,7 +67,7 @@ public class LogoService {
 		//파일 카피
 		try {
 			byte[] fileData = file.getBytes();
-			OutputStream out = new FileOutputStream(fielSaveDir + "/" + fileSaveName); //저장위치
+			OutputStream out = new FileOutputStream(filePath); //저장위치
 			BufferedOutputStream bout = new BufferedOutputStream(out);
 			
 			bout.write(fileData);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+
+	<select id="list" parameterType="int" resultType="HashMap">
+		<![CDATA[
+			select u.userno userNo, u.username userName, co.cmtcontent cmtContent, co.regdate regDate
+			from users u , blog b , category c , post p , comments co
+			where u.userno = b.userno and
+				  b.userno = c.userno and
+				  c.cateno = p.cateno and
+				  p.postno = co.postno and
+				  postno = #{postNo}
+		]]>
+	</select>
+
+</mapper>
