@@ -27,7 +27,7 @@ public class ApiCateController {
 	@ResponseBody
 	@RequestMapping(value="/{id}/admin/cateadd" ,method = RequestMethod.POST)
 	public CateVo cateAdd(@RequestBody CateVo cVo, @PathVariable String id, HttpSession session, HttpServletRequest request) {
-		System.out.println("cateadd 진입");
+		System.out.println("/{id}/admin/cateadd 진입");
 		String checkResult = loginUserCheck(id, session, request);
 		if(checkResult.equals("no")) {
 			return null;
@@ -43,7 +43,7 @@ public class ApiCateController {
 	@ResponseBody
 	@RequestMapping(value="/{id}/admin/catedel" ,method = RequestMethod.POST)
 	public int cateDel(@RequestBody int cateNo, @PathVariable String id, HttpSession session, HttpServletRequest request) {
-		System.out.println("cateadd 진입");
+		System.out.println("/{id}/admin/catedel 진입");
 		String checkResult = loginUserCheck(id, session, request);
 		if(checkResult.equals("no")) {
 			return 0;
@@ -57,7 +57,7 @@ public class ApiCateController {
 	@ResponseBody
 	@RequestMapping(value="/{id}/admin/catelist" ,method = RequestMethod.POST)
 	public List<CateVo> cateList(@PathVariable String id){
-		System.out.println("catelist 진입");
+		System.out.println("/{id}/admin/catelist 진입");
 		List<CateVo> cList = cService.cateList(id);
 		return cList; 
 	}

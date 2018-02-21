@@ -6,7 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
 
@@ -28,7 +30,7 @@
 					<p>
 					
 					<table id="comments" style="width: 100%; padding:5px; height:25px;">
-						<tr style="width: 100%; background:#F6F6F6;">
+						<!-- <tr style="width: 100%; background:#F6F6F6;">
 							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">서유정</td>
 							<td style="width: 70%; height: 100%; padding: 0 5px 0 5px">댓글 내용</td>
 							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">2018/06/05</td>
@@ -37,11 +39,11 @@
 							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">정호윤</td>
 							<td style="width: 70%; height: 100%; padding: 0 5px 0 5px">댓글 내용</td>
 							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">2018/07/05</td>
-						</tr>
+						</tr> -->
 					</table>
 					
 					<div id="commentsendtable" style="display: none">
-						<table id="commentsend" style="width: 100%; padding:5px; height:45px; background:white;">
+						<table id="tcomment" style="width: 100%; padding:5px; height:45px; background:white;">
 							<tr style="width: 100%">
 								<th style="width: 15%; height: 100%; padding: 0 5px 0 5px">작성자</th>
 								<th style="width: 70%; height: 100%; padding: 0 5px 0 5px">댓글 내용</th>
@@ -49,13 +51,13 @@
 							</tr>
 							<tr style="width: 100%">
 								<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">
-									<input type="text" name="commentusername" style ="width:100%; height: 100%;">
+									<input type="text" id="username" style ="width:100%; height: 100%;" readonly="readonly" value="${authUser.userName }">
 								</td>
 								<td style="width: 70%; height: 100%; padding: 0 5px 0 5px">
-									<input type="text" name="comment" style ="width:100%; height: 100%;">
+									<input type="text" id="comment" style ="width:100%; height: 100%;">
 								</td>
 								<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">
-									<input type="button" id="commentsave" value="댓글달기" style ="width:100%; height: 100%;">
+									<input type="button" id="commentadd" value="댓글달기" style ="width:100%; height: 100%;">
 								</td>
 							</tr>
 						</table>
@@ -95,6 +97,10 @@
 	var pTotal; //전체 포스트 수
 	var cTotal; //전체 카테고리 수
 	var selectPostNo = -999; //현재 선택된 포스트 번호 임의값 -999로 초기화
+	
+	
+	
+	//페이지 시작시 바로 실행
 	$(document).ready(function(){
 		
 		//포스트 리스트 그리기
@@ -164,15 +170,9 @@
 		
 	});
 	
-	//클릭한 포스트 내용 보여주기
-	$(".blog-list").on("click","li", function(){
-		var index = $(this).data("no");
-		$(".blog-content").children()[0].innerHTML=pListSave[index].postTitle;
-		$(".blog-content").children()[1].innerHTML=pListSave[index].postContent;
-		selectPostNo = pListSave[index].postNo;
-		
-	});
-		
+	
+	///////////////////////////////////////////////////////
+	
 	//카테고리 마우스 hover 시
 	//동적으로 생성된 li 객체에  hover 이벤트를 사용 할 수 있는 방법을 찾아도 나와있지를 않아서 mouse 이벤트 2개를 동시에 넣고 발생되는 이벤트에 따라서 css 추가함
 	$("#catelist").delegate("li","mouseenter mouseleave", function(event) { 
@@ -192,7 +192,7 @@
 		$(".blog-list").children().remove();
 		var index = $(this).data("no");
 		
-		selectPostNo = -999; //선택한 포스트 번호를 받아오기전에 초기화
+		selectPostNo = -999; //선택한 포스트 번호를 받아오기전에 항상 초기화
 		
 		if(pListSave==null){ // 포스트가 하나도 없을떄
 			$(".blog-content").children()[0].innerHTML="";
@@ -226,16 +226,51 @@
 
 		}
 		
-		if(selectPostNo==-999){
-			$(".blog-content").children()[0].innerHTML="포스트가 존재 하지 않습니다.";
-			$(".blog-content").children()[1].innerHTML="";
-			$("#commentsendtable").hide(); //보여지는 포스트가 없을때 숨기기
-		}else{
-			$("#commentsendtable").show(); //보여지는 포스트가 있을때 보이기
-		}
-		
-		
+		commentload(selectPostNo);
 	});
+	
+	
+	//클릭한 포스트 내용 보여주기
+	$(".blog-list").on("click","li", function(){
+		var index = $(this).data("no");
+		$(".blog-content").children()[0].innerHTML=pListSave[index].postTitle;
+		$(".blog-content").children()[1].innerHTML=pListSave[index].postContent;
+		selectPostNo = pListSave[index].postNo;
+		
+		commentload(selectPostNo);
+	});
+	
+	//댓글 추가하기
+	$("#commentadd").on("click",function(){
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${requestScope.id}/commentadd",
+			type : "post",
+			data : {
+				postNo : selectPostNo,
+				cmtContent : $("#comment").val()
+			},
+			
+			dataType : "json",
+			success : function(comment){ //추가한 댓글 다른색으로 표시
+				console.log(comment);
+				var str =
+					"<tr style='width: 100%; background:#FAE0D4;'>"+
+						"<td style='width: 10%; height: 100%; padding: 0 5px 0 5px'>"+"${authUser.userName}"+"</td>"+
+						"<td style='width: 70%; height: 100%; padding: 0 5px 0 5px'>"+comment.cmtContent+"</td>"+
+						"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'>"+comment.regDate+"</td>"+
+						"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'><span class='glyphicon glyphicon-trash'></span></td>"+
+					"</tr>";
+				$("#comments").append(str);
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+			
+		});
+	});
+	
 	
 	//포스트 그리기 함수
 	function postrender(pVo , i){
@@ -256,22 +291,32 @@
 		$.ajax({
 			url : "${pageContext.request.contextPath}/${requestScope.id}/commentlist",
 			type : "post",
-			data : postNo,
+			data : {postNo : postNo},
 			
 			dataType : "json",
 			success : function(comments){ /*성공시 처리해야될 코드 작성*/
 				console.log(comments);
-				
+				$("#comments").children().remove(); //기존에 있는 댓글들 지우고 다시 작성해야하기 때문에
 				for(var i=0; i<comments.length; i++){
-					var color = (i%2==0?  "#F6F6F6" : "##F0F0F0");
+					var color = ((i%2==0) ? "#F6F6F6" : "#F0F0F0" );
 					var str =
-						"<tr>"+
-							"<tr style=width: 100%; background:"+color+";>"+
-							"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].userName+"</td>"+
-							"<td style='width: 70%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].cmtContent+"</td>"+
-							"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].regDate+"</td>"+
+						"<tr style='width: 100%; background:"+color+";'>"+
+							"<td style='width: 10%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].USERNAME+"</td>"+
+							"<td style='width: 70%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].CMTCONTENT+"</td>"+
+							"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].REGDATE+"</td>"+
+							"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'><span class='glyphicon glyphicon-trash'></span></td>"+
 						"</tr>";
 					$("#comments").append(str);
+				}
+				
+				if(selectPostNo==-999){
+					$(".blog-content").children()[0].innerHTML="포스트가 존재 하지 않습니다.";
+					$(".blog-content").children()[1].innerHTML="";
+					$("#commentsendtable").hide(); //보여지는 포스트가 없을때 숨기기
+				}else{
+					if( ${!empty authUser} ){ // 로그인한 유저일때만
+						$("#commentsendtable").show(); //보여지는 포스트가 있을때만 댓글작성 보이기
+					}
 				}
 			},
 			
@@ -280,6 +325,8 @@
 			}
 		})
 	}
+	
+	
 
 </script>
 </html>

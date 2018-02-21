@@ -5,14 +5,24 @@
 
 	<select id="list" parameterType="int" resultType="HashMap">
 		<![CDATA[
-			select u.userno userNo, u.username userName, co.cmtcontent cmtContent, co.regdate regDate
+			select u.userno userNo, u.username userName, co.cmtcontent cmtContent, to_char(co.regdate, 'YYYY/MM/DD') regDate
 			from users u , blog b , category c , post p , comments co
 			where u.userno = b.userno and
 				  b.userno = c.userno and
 				  c.cateno = p.cateno and
 				  p.postno = co.postno and
-				  postno = #{postNo}
+				  p.postno = #{postNo}
 		]]>
 	</select>
+	
+	<insert id="insert" parameterType="Map">
+		<selectKey keyProperty="regDate" resultType="String" order="BEFORE">
+			select to_char(sysdate , 'YYYY/MM/DD') regDate from dual
+		</selectKey>
+		<![CDATA[
+			insert into comments 
+			values(seq_comments_no.nextval, #{userNo}, #{postNo}, #{cmtContent}, sysdate)
+		]]>
+	</insert>
 
 </mapper>

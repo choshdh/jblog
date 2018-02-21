@@ -23,7 +23,7 @@ public class ApiPostController {
 	@ResponseBody
 	@RequestMapping(value="/{id}/admin/postlist" ,method = RequestMethod.POST)
 	public List<PostVo> postList(@PathVariable String id, HttpSession session){
-		System.out.println("postlist 진입");
+		System.out.println("/{id}/admin/postlist 진입");
 		List<PostVo> pList = pService.postList(id);
 		return pList; 
 	}

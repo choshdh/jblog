@@ -1,5 +1,7 @@
 package com.javaex.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,17 @@ public class CommentService {
 	@Autowired
 	CommentDao cDao;
 	
-	public Map<String,Object> commentList() {
-		return cDao.commentList();
+	public List<HashMap<String,Object>> commentList(int postNo) {
+		return cDao.commentList(postNo);
+	}
+
+	public Map<String, String> commentAdd(Map<String, String> map) {
+		int result = cDao.commentInsert(map);
+		if(result == 1) {
+			return map;
+		}else {
+			return null;			
+		}
 	}
 
 }

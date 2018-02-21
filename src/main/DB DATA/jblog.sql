@@ -55,7 +55,7 @@ create table comments(
 cmtno number primary key,
 userno number not null,
 postno number not null,
-comcontent varchar2(1000) not null,
+cmtcontent varchar2(1000) not null,
 regdate date not null,
 constraint c_comments_fk foreign key(postno) references post(postno)
 );

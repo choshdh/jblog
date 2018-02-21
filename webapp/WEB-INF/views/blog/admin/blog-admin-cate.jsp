@@ -86,25 +86,35 @@
 		var userNo = ${authUser.userNo};
 		var cateName = $("#catename").val();
 		var description = $("#description").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/${authUser.id}/admin/cateadd",
-			type : "post",
-			contentType : "application/json",
-			data : JSON.stringify({userNo:userNo,cateName:cateName,description:description}) ,        
-			dataType : "json",
-			success : function(cVo){ /*성공시 처리해야될 코드 작성*/
-				if(cVo==null){
-					alert("잘못된 접근입니다.");
-				}else{
-					cListSave.push(cVo);
-					render(cVo);
-				}
-			},
-			
-			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
-				console.error(status + " : " + error);
+		var cateNameCheck = 1;
+		for(var i=0; i<cListSave.length; i++){
+			if(cListSave[i].cateName==cateName){
+				cateNameCheck = 0;
 			}
-		});
+		}
+		if(cateNameCheck==1){
+			$.ajax({
+				url : "${pageContext.request.contextPath}/${authUser.id}/admin/cateadd",
+				type : "post",
+				contentType : "application/json",
+				data : JSON.stringify({userNo:userNo,cateName:cateName,description:description}) ,        
+				dataType : "json",
+				success : function(cVo){ /*성공시 처리해야될 코드 작성*/
+					if(cVo==null){
+						alert("카테고리 추가 실패.");
+					}else{
+						cListSave.push(cVo);
+						render(cVo);
+					}
+				},
+				
+				error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+					console.error(status + " : " + error);
+				}
+			});
+		}else{
+			alert("이미 존재 하는 카테고리 이름입니다.");
+		}
 		
 		$("#catename").val("");
 		$("#description").val("");
