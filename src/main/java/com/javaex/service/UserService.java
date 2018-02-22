@@ -22,7 +22,7 @@ public class UserService {
 	@Transactional
 	public int join(Map<String,String> map) {
 		int userNo = userDao.userInsert(map);
-		int result = blogDao.blogInsert(new BlogVo(userNo,"안녕하세요 " + map.get("userName") + "의 블로그에 오신것을 환영 합니다.","spring-logo.jpg"));
+		int result = blogDao.blogInsert(new BlogVo(userNo,"안녕하세요 " + map.get("userName") + "의 블로그에 오신것을 환영 합니다.","수지2.jpg"));
 		return result;
 	}
 	

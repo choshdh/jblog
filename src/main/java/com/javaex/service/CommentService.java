@@ -28,4 +28,8 @@ public class CommentService {
 		}
 	}
 
+	public int commentDel(Map<String, String> map) {
+		return cDao.commentDel(map);
+	}
+
 }

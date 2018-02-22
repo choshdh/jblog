@@ -22,4 +22,8 @@ public class CommentDao {
 		return ss.insert("comment.insert", map);
 	}
 
+	public int commentDel(Map<String, String> map) {
+		return ss.delete("comment.delete", map);
+	}
+
 }

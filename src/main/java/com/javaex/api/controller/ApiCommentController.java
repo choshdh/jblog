@@ -34,7 +34,16 @@ public class ApiCommentController {
 		System.out.println("/{id}/commentadd 진입");
 		String userNo = String.valueOf(((UserVo) session.getAttribute("authUser")).getUserNo()) ;
 		map.put("userNo", userNo); //추가
+		System.out.println(map);
 		return cService.commentAdd(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/{id}/commentdel")
+	public int commentDel(@RequestParam Map<String,String> map, HttpSession session){ //postNo,cmtNo
+		String userNo = String.valueOf(((UserVo) session.getAttribute("authUser")).getUserNo()) ;
+		map.put("userNo", userNo);
+		return cService.commentDel(map);
 	}
 	
 }

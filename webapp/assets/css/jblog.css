@@ -1,7 +1,7 @@
 
 /* reset */
 *				{ margin:0; padding:0 }
-body			{ font:0.75em "留묒� 怨좊뵓", �룍��, 援대┝; text-align:center; color:#111 }
+body			{ font:0.75em "留묒� 怨좊뵓", �룍��, 援대┝; text-align:center;}
 ul, ol			{ list-style-type: none }
 fieldset		{ border:none }
 
@@ -45,30 +45,30 @@ a:hover 		{ color:#dc143c; text-decoration:none; font-weight:bold;}
 
 
 div#container				{ width:920px; margin:0 auto }
-div#header					{ height:120px; background: #5394CC;  }
-div#content					{ float:left; width:720px; min-height:220px }
+div#header					{ height:120px;}
+div#content					{ float:left; width:720px; min-height:430px }
 div#content.full-screen		{ float:none; width:920px;}
 div#navigation				{ float:right; width:200px }
 div#extra					{ float:right; clear:right; width:200px }
 div#footer					{ clear:both; width:100% }
 
 /* header */
-div#header h1		{ text-align:center; line-height:100px; margin:0; color:#fff }
+div#header h1		{ text-align:center; line-height:100px; margin:0;}
 div#header ul		{ height:20px } 
 div#header li		{ float:right; margin-right:10px; }
-div#header li a 	{ color:#fff; font-weight:bold; text-decoration:none; }
+div#header li a 	{ color:white; font-weight:bold; text-decoration:none; }
 
-#header h1 a:hover	 { color:#79B30B; text-decoration:none  }
-#header h1 a:link	 { color:#79B30B; text-decoration:none  }
-#header h1 a:visited { color:#79B30B; text-decoration:none  }
-#header h1 a:active  { color:#79B30B; text-decoration:none  }
+#header h1 a:hover	 { color:white; text-decoration:none  }
+#header h1 a:link	 { color:white; text-decoration:none  }
+#header h1 a:visited { color:white; text-decoration:none  }
+#header h1 a:active  { color:white; text-decoration:none  }
 
 div#container		{ text-align:left }
 
 
 /* content */
 div#content	.blog-content	{ padding:10px }
-.blog-content h4			{ font-size:1.3em; color:#9D96D0 }
+.blog-content h1			{ color:#FFB85A }
 .blog-content p				{ margin-top:10px; line-height:150% }
 div#content .blog-list		{ margin:20px 0 10px 10px }
 .blog-list 					{ width:100% }
@@ -78,8 +78,8 @@ div#content .blog-list		{ margin:20px 0 10px 10px }
 .blog-list li span			{ display:block; float:right; margin-right:30px }
 
 /* admin content */
-div#content .admin-menu					{ height:20px; margin-top:15px; margin-bottom:10px }
-div#content .admin-menu li				{ float:left; margin-left:10px; }
+div#content .admin-menu					{ height:20px; margin-top:10px; margin-bottom:0px }
+div#content .admin-menu li				{ float:left; margin-left:2px; }
 div#content .admin-menu li.selected		{ font-weight:bold }
 div#content .admin-menu li:first-child	{ margin-left:0 }
 div#content .admin-menu a				{ font-weight:bold }

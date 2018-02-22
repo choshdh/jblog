@@ -20,30 +20,25 @@
 		
 		<div id="wrapper">
 			<div id="content">
-				<div class="blog-content" style="background: #FFF5F0">
-					<h4>Spring Camp 2016 참여기</h4>
-					<p>
-						스프링 캠프에서는 JVM(Java Virtual Machine) 기반 시스템의 백엔드(Back-end) 또는 서버사이드(Server-side)라고 칭하는 영역을 개발하는 애플리케이션 서버 개발에 관한 기술과 정보, 경험을 공유하는 컨퍼런스입니다.<br>
-						 핵심주제로 Java와 Spring IO Platform을 다루고 있으며, 그외 Architecture나 JVM Language, Software Development Process 등 애플리케이션 서버 개발에 필요한 다양한 주제를 다루려고 노력하고 있습니다.<br>
-						 우리는 같은 일을 하고, 같은 관심사를 가진 개발자들이지만 서로를 모릅니다.<br>
-						 스프링 캠프라는 컨퍼런스에 찾아온 낯선 개발자들 사이에서 자신을 소개하고 이야기를 나누고 웃고 즐기며면서 어색함을 떨쳐내고 우리가 같은 분야에서 함께 일하고 있는 친구이자 동료라는 것을 인지하고 새로운 인연의 고리를 연결하고 이어갈 수 있는 순간으로 만들어가려 합니다.
-					<p>
+				<div>
+					<!-- 메인 포스트 -->
+					<div class="blog-content panel panel-danger" style="margin-top:10px; margin-bottom:10px; padding:0;">
+						<div class="panel-heading">포스트 제목</div>
+	  					<div class="panel-body">포스트 내용</div>
+	  					
+	  					<!-- 댓글 -->
+						<table id="comments" style="width: 100%; padding:5px; height:25px;" class="table table-striped table-hover">
+						</table>
+						<!-- 댓글 -->
+					</div>
+					<!-- 메인 포스트 -->
 					
-					<table id="comments" style="width: 100%; padding:5px; height:25px;">
-						<!-- <tr style="width: 100%; background:#F6F6F6;">
-							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">서유정</td>
-							<td style="width: 70%; height: 100%; padding: 0 5px 0 5px">댓글 내용</td>
-							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">2018/06/05</td>
-						</tr>
-						<tr style="width: 100%; background:#F0F0F0;">
-							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">정호윤</td>
-							<td style="width: 70%; height: 100%; padding: 0 5px 0 5px">댓글 내용</td>
-							<td style="width: 15%; height: 100%; padding: 0 5px 0 5px">2018/07/05</td>
-						</tr> -->
-					</table>
 					
+					
+					
+					<!-- 댓글 추가 -->
 					<div id="commentsendtable" style="display: none">
-						<table id="tcomment" style="width: 100%; padding:5px; height:45px; background:white;">
+						<table id="tcomment" style="width: 100%;">
 							<tr style="width: 100%">
 								<th style="width: 15%; height: 100%; padding: 0 5px 0 5px">작성자</th>
 								<th style="width: 70%; height: 100%; padding: 0 5px 0 5px">댓글 내용</th>
@@ -62,18 +57,25 @@
 							</tr>
 						</table>
 					</div>
+					<!-- 댓글 추가 -->
+					
+					
 				</div>
 				
-				<label for="bl" style="padding:0 0 0 10px;">포스트</label>
+				<!-- 카테고리 리스트 -->
 				<ul id="bl" class="blog-list">
 				</ul>
+				<!-- 카테고리 리스트 -->
+				
 			</div>
 		</div>
 
 		<div id="extra">
-			<div id="bloglogo" class="blog-logo" style="height: 200px;">
-				
+			<!-- 블로그 로고 -->
+			<div id="bloglogo" class="blog-logo" style="margin-top:10px;">
+			
 			</div>
+			<!-- 블로그 로고 -->
 		</div>
 
 		<div id="navigation">
@@ -114,8 +116,7 @@
 				pTotal = pList.length;
 				for(var i=0; i<pList.length; i++){
 					if(i==0){
-						$(".blog-content").children()[0].innerHTML=pList[0].postTitle;
-						$(".blog-content").children()[1].innerHTML=pList[0].postContent;
+						mainpost(pList[0]);
 						selectPostNo = pList[0].postNo;
 						
 						commentload(selectPostNo);
@@ -159,7 +160,7 @@
 			
 			dataType : "json",
 			success : function(url){ /*성공시 처리해야될 코드 작성*/
-				$("#bloglogo")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+				$("#bloglogo")[0].innerHTML="<img style='width:180px' src='${pageContext.request.contextPath}/"+url+"'>";
 			},
 			
 			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
@@ -202,8 +203,7 @@
 			if(index==-1){ //전체 카테고리 선택시
 				for(var i=0; i<pListSave.length; i++){
 					if(i==0){ //blog-content 내용을 해당 카테고리의 첫번째글로 업데이트 해주기 
-						$(".blog-content").children()[0].innerHTML=pListSave[0].postTitle;
-						$(".blog-content").children()[1].innerHTML=pListSave[0].postContent;
+						mainpost(pListSave[0]);
 						selectPostNo = pListSave[0].postNo;
 					}
 					postrender(pListSave[i] , i);
@@ -213,8 +213,7 @@
 				for(var i=0; i<pListSave.length; i++){
 					if(cListSave[index].cateNo==pListSave[i].cateNo){
 						if(printfirst ==1){ //blog-content 내용을 해당 카테고리의 첫번째글로 업데이트 해주기 
-							$(".blog-content").children()[0].innerHTML=pListSave[i].postTitle;
-							$(".blog-content").children()[1].innerHTML=pListSave[i].postContent;
+							mainpost(pListSave[i]);
 							selectPostNo = pListSave[i].postNo;
 							printfirst = -99999;
 							console.log(selectPostNo);
@@ -233,14 +232,14 @@
 	//클릭한 포스트 내용 보여주기
 	$(".blog-list").on("click","li", function(){
 		var index = $(this).data("no");
-		$(".blog-content").children()[0].innerHTML=pListSave[index].postTitle;
-		$(".blog-content").children()[1].innerHTML=pListSave[index].postContent;
+		mainpost(pListSave[index]);
+		
 		selectPostNo = pListSave[index].postNo;
 		
 		commentload(selectPostNo);
 	});
 	
-	//댓글 추가하기
+	//댓글 추가 버튼 클릭시
 	$("#commentadd").on("click",function(){
 		
 		$.ajax({
@@ -255,13 +254,13 @@
 			success : function(comment){ //추가한 댓글 다른색으로 표시
 				console.log(comment);
 				var str =
-					"<tr style='width: 100%; background:#FAE0D4;'>"+
+					"<tr style='width: 100%;'>"+
 						"<td style='width: 10%; height: 100%; padding: 0 5px 0 5px'>"+"${authUser.userName}"+"</td>"+
 						"<td style='width: 70%; height: 100%; padding: 0 5px 0 5px'>"+comment.cmtContent+"</td>"+
-						"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'>"+comment.regDate+"</td>"+
-						"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'><span class='glyphicon glyphicon-trash'></span></td>"+
+						"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'><span class='label label-warning'>new</span></td>"+
+						"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'><span id='del' data-postno='"+selectPostNo+"' data-cmtno='"+comment.cmtNo+"'class='label label-default' style='cursor:pointer'>Del</span></td>"+
 					"</tr>";
-				$("#comments").append(str);
+				$("#comments").prepend(str);
 			},
 			
 			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
@@ -271,6 +270,37 @@
 		});
 	});
 	
+	$("#comments").on("click","#del",function(){
+		var thisCmt = $(this).parent().parent();
+		var postNo = $(this).data("postno");
+		var cmtNo = $(this).data("cmtno");
+		$.ajax({
+			url : "${pageContext.request.contextPath}/${requestScope.id}/commentdel",
+			type : "post",
+			data : {postNo : postNo, cmtNo : cmtNo},
+			
+			dataType : "json",
+			success : function(result){ /*성공시 처리해야될 코드 작성*/
+				console.log("댓글 삭제 요청 결과 : " + result);
+				if(result ==1){
+					thisCmt.remove();
+					console.log("댓글 삭제 성공");
+				}else{
+					console.log("댓글 삭제 실패");
+				}
+			},
+			
+			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
+				console.error(status + " : " + error);
+			}
+		})
+	});
+	
+	//메인 포스트
+	function mainpost(p){
+		$(".blog-content").children()[0].innerHTML=p.postTitle;
+		$(".blog-content").children()[1].innerHTML=p.postContent;
+	}
 	
 	//포스트 그리기 함수
 	function postrender(pVo , i){
@@ -298,14 +328,16 @@
 				console.log(comments);
 				$("#comments").children().remove(); //기존에 있는 댓글들 지우고 다시 작성해야하기 때문에
 				for(var i=0; i<comments.length; i++){
-					var color = ((i%2==0) ? "#F6F6F6" : "#F0F0F0" );
 					var str =
-						"<tr style='width: 100%; background:"+color+";'>"+
+						"<tr style='width: 100%;'>"+
 							"<td style='width: 10%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].USERNAME+"</td>"+
 							"<td style='width: 70%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].CMTCONTENT+"</td>"+
 							"<td style='width: 15%; height: 100%; padding: 0 5px 0 5px'>"+comments[i].REGDATE+"</td>"+
-							"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'><span class='glyphicon glyphicon-trash'></span></td>"+
-						"</tr>";
+							"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'>";
+					if( "${authUser.userNo}" == comments[i].USERNO ){
+						str += "<span id='del' data-postno='"+postNo+"' data-cmtno='"+comments[i].CMTNO+"' class='label label-default' style='cursor:pointer'>Del</span>";
+					}
+						str +="</td></tr>";
 					$("#comments").append(str);
 				}
 				
