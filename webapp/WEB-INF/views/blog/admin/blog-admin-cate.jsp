@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> <!-- 최신 헤헤 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 </head>
@@ -19,39 +19,47 @@
 		<!-- /블로그 해더 -->
 
 		<div id="wrapper">
-			<div id="content">
-				<ul class="list-group" style="margin-top:5px; margin-bottom:5px;">
+			<div id="content" style="height:430px;">
+				<ul class="list-group" style="height :25px; margin-top:5px; margin-bottom:5px;">
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-danger" href="${pageContext.request.contextPath}/${authUser.id}">내 블로그</a></li>
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-warning" href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-info" href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-success" href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-		      	<table class="admin-cat" id="catelist">
-		      		<tr>
-		      			<th width="10%">번호</th>
-		      			<th width="25%">카테고리명</th>
-		      			<th width="35%">설명</th>
-		      			<th width="20%">포스트 수</th>
-		      			<th width="10%">삭제</th>
-		      		</tr>
+		      	<table class="table table-striped table-bordered table-hover" id="catelist" style="margin:5px">
+		      		<thead>
+			      		<tr>
+			      			<th width="10%">번호</th>
+			      			<th width="25%">카테고리명</th>
+			      			<th width="35%">설명</th>
+			      			<th width="20%">포스트 수</th>
+			      			<th width="10%">삭제</th>
+			      		</tr>
+		      		</thead>
+		      		<tbody id="cateadd">
+		      		
+		      		</tbody>
 				</table>
       	
-      			<h4 class="n-c">새로운 카테고리 추가</h4>
-		      	<table id="admin-cat-add">
-		      		<tr>
-		      			<td class="t">카테고리명</td>
-		      			<td><input type="text" id="catename" name="name"></td>
-		      		</tr>
-		      		<tr>
-		      			<td class="t">설명</td>
-		      			<td><input type="text" id="description" name="desc"></td>
-		      		</tr>
-		      		<tr>
-		      			<td class="s">&nbsp;</td>
-		      			<td><input id="cateadd" type="button" value="카테고리 추가"></td>
-		      		</tr>      		      		
-		      	</table> 
+      			<div style="margin:5px">
+	      			<h4 class="n-c">새로운 카테고리 추가</h4>
+			      	<table id="admin-cat-add">
+			      		<tr>
+			      			<td class="t">카테고리명</td>
+			      			<td><input type="text" id="catename" name="name"></td>
+			      		</tr>
+			      		<tr>
+			      			<td class="t">설명</td>
+			      			<td><input type="text" id="description" name="desc"></td>
+			      		</tr>
+			      		<tr>
+			      			<td class="s">&nbsp;</td>
+			      			<td><input id="cateadd" type="button" value="카테고리 추가"></td>
+			      		</tr>      		      		
+			      	</table> 
+      			</div>
+      			
 			</div>
 		</div>
 
@@ -161,10 +169,10 @@
 			"<td>"+cVo.cateName+"</td>"+
 			"<td>"+cVo.description+"</td>"+
 			"<td>"+cVo.postCnt+"</td>"+
-			"<td id='del'><img src='${pageContext.request.contextPath}/assets/images/delete.jpg' ></td>"+
+			"<td id='del'><img src='${pageContext.request.contextPath}/assets/images/delete.jpg' style='cursor:pointer' ></td>"+
 		"</tr>";
 		
-		$("#catelist").append(str);
+		$("#cateadd").append(str);
 	}
 	
 </script>

@@ -8,6 +8,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd"
 	xmlns:mvc="http://www.springframework.org/schema/mvc">
 
+	<!-- web 에 관련된 것들을 선언 -->
 	<!-- spring-servlet.xml 는 DispatcherServlet이 autowired 어노테이션을 사용하기 위한 패키지들을 정의한 파일  -->
 	
 	<!-- annotation 을 사용하겠다. -->

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> <!-- 최신 헤헤 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 </head>
@@ -20,7 +20,7 @@
 		
 		<div id="wrapper">
 			<div id="content">
-				<ul class="list-group" style="margin-top:5px; margin-bottom:5px;">
+				<ul class="list-group" style="height :25px; margin-top:5px; margin-bottom:5px;">
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-danger" href="${pageContext.request.contextPath}/${authUser.id}">내 블로그</a></li>
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-warning" href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-info" href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
@@ -28,7 +28,7 @@
 				</ul>
 				
 				<form action="${pageContext.request.contextPath}/${authUser.id}/admin/postadd" method="post">
-			      	<table class="admin-cat-write">
+			      	<table class="table table-striped table-hover" style="margin:5px">
 			      		<tr>
 			      			<td class="t">제목</td>
 			      			<td>
@@ -38,7 +38,7 @@
 				      		</td>
 			      		</tr>
 			      		<tr>
-			      			<td class="t">내용</td>
+			      			<td class="t" >내용</td>
 			      			<td><textarea name="postContent"></textarea></td>
 			      		</tr>
 			      		<tr>

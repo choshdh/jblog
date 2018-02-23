@@ -18,10 +18,15 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<!-- applicationContext.xml 는  스프링 컨테이너가 autowired 어노테이션을 사용하기 위한 패키지들을 정의한 파일-->
+	<!-- applicationContext.xml 는 스프링 자체 -->
+	<!-- 1.스프링 프레임워크 -->
+	<!-- 2.어플리케이션컨텍스트 -->
+	<!-- 3.빈팩토리 -->
+	<!-- applicationContext.xml 는 스프링 컨테이너가 autowired 어노테이션을 통해 객체를 주입해주기 위한 패키지들을 정의한 파일-->
 
 	<context:annotation-config />
 
+	<!-- 스캔할 annotation 명 -->
 	<context:component-scan base-package="com.javaex"><!-- 이패키지안을 스캔 해라 -->
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" /> <!-- DAO -->

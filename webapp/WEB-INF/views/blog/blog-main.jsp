@@ -5,10 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> <!-- 최신 헤헤 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
+
 </head>
 <body>
 
@@ -62,10 +63,10 @@
 					
 				</div>
 				
-				<!-- 카테고리 리스트 -->
+				<!-- 포스트 리스트 -->
 				<ul id="bl" class="blog-list">
 				</ul>
-				<!-- 카테고리 리스트 -->
+				<!-- 포스트 리스트 -->
 				
 			</div>
 		</div>
@@ -78,6 +79,7 @@
 			<!-- 블로그 로고 -->
 		</div>
 
+		<!-- 카테고리 리스트 -->
 		<div id="navigation">
 			<h2>카테고리</h2>
 			<ul id="catelist">
@@ -85,6 +87,8 @@
 				
 			</ul>
 		</div>
+		<!-- 카테고리 리스트 -->
+		
 		<div style="font-weight:bold; padding:10px; background-color:white; border:1px solid #5D5D5D; border-radius: 5px 5px 5px 5px; width:300px; height:100px; z-index:10; display:none; z-index:10;" id=hdiv></div>
 		<!-- 푸터 -->
 		<c:import url="/WEB-INF/views/blog/includes/blog-footer.jsp"></c:import>

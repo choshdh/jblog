@@ -9,6 +9,7 @@
 			from users u , comments co
 			where u.userno = co.userno and
 				  co.postno = #{postNo}
+			order by co.cmtNo desc
 		]]>
 	</select>
 	
