@@ -302,6 +302,8 @@
 						"<td style='width: 5%; height: 100%; padding: 0 5px 0 5px'><span id='del' data-postno='"+selectPostNo+"' data-cmtno='"+comment.cmtNo+"'class='label label-default' style='cursor:pointer'>Del</span></td>"+
 					"</tr>";
 				$("#comments").prepend(str);
+				
+				$("#comment").val("");
 			},
 			
 			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
