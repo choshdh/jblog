@@ -41,7 +41,7 @@ public class LogoService {
 	public String logoRestore(MultipartFile file) {
 		//파일 정보 수집
 		//저장 폴더
-		String fielSaveDir = "d:/javastudy/upload";
+		String fielSaveDir = "c:/cho/upload";
 		
 		//원파일 이름
 		String fileOriginalName= file.getOriginalFilename();

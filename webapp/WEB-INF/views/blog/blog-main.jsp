@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> <!-- 최신 헤헤 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath }/assets/cookie/jquery.cookie.js"></script>
 
 </head>
 <body>
@@ -89,7 +90,23 @@
 		</div>
 		<!-- 카테고리 리스트 -->
 		
+		
+		<!-- hover 용 div -->
 		<div style="font-weight:bold; padding:10px; background-color:white; border:1px solid #5D5D5D; border-radius: 5px 5px 5px 5px; width:300px; height:100px; z-index:10; display:none; z-index:10;" id=hdiv></div>
+		<!-- popup 차단을 피하기위해서 div로 popup창 대체 -->
+		<div style="font-weight:bold; padding:10px; background-color:white; border:1px solid #5D5D5D; border-radius: 5px 5px 5px 5px; display:none; z-index:10;" id=pop>
+			Jblog 에 오신 것을 환영합니다.<br>
+			팝업차단을 피하기 위해서<br>
+			div 를 사용하였습니다.<br>
+		 	 블로그의 사진 사용을 위해서 <br>
+		 	 spring-servlet.xml 파일과<br>
+		 	 LogoService 의<br>
+		 	  저장 폴더의 수정이 필요합니다.
+			<label for="check">오늘 하루 이창 열지 않음</label>
+			<input type="checkbox" id="check"/>
+			<input type="button" id=bt value="닫기">
+		</div>
+			
 		<!-- 푸터 -->
 		<c:import url="/WEB-INF/views/blog/includes/blog-footer.jsp"></c:import>
 		<!-- 푸터 -->
@@ -108,6 +125,24 @@
 	
 	//페이지 시작시 바로 실행
 	$(document).ready(function(){
+		$("#check").click(function(){
+  			//쿠기값을 "Y"로 하여 하루동안 저장시킴
+			$.cookie("nopopup","Y",{expires:1});
+			$("#pop").css({"display":"none"});	
+		});
+  		
+  		$("#bt").click(function(){
+  			$("#pop").css({"display":"none"});
+  		})
+		
+		if($.cookie("nopopup")!="Y"){
+			console.log("쿠키 div 보이기");
+			var wsize = 310;
+			var hsize = 200;
+			var LeftPosition = (screen.width-wsize)/2;
+			var TopPosition = (screen.height-hsize)/2-120;
+			$("#pop").css({"display":"block","width":wsize,"height":hsize ,"position":"absolute","left":LeftPosition,"top":TopPosition});
+		}
 		
 		//포스트 리스트 그리기
 		$.ajax({

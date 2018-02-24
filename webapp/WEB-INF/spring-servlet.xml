@@ -56,7 +56,7 @@
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>
 	
-	<!-- pc 변경시 수정 해주자, 서비스의 저장 폴더도-->
-	<mvc:resources mapping="/upload/**" location="file:d:/javastudy/upload/"/>
+	<!-- pc 변경시 수정 해주자, LogoService 의 저장 폴더도 같이 수정 요망-->
+	<mvc:resources mapping="/upload/**" location="file:c:/cho/upload/"/>
 
 </beans>

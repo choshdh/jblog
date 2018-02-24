@@ -27,25 +27,31 @@
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-success" href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-				<form id="logochangeform" action="${pageContext.request.contextPath}/${authUser.id}/admin/logochange" method="post" enctype="multipart/form-data">
-	 		      	<table class="table table-striped table-bordered table-hover" style="margin:5px; height:400px;">
-			      		<tr>
-			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" id="blog-title" name="title" value="${bVo.blogTitle }"></td>
-			      		</tr>
-			      		<tr>
-			      			<td class="t">로고이미지</td>
-			      			<td id="logoimg"></td>      			
-			      		</tr>      		
-			      		<tr>
-			      			<td class="t">&nbsp;</td>
-			      			<td><input type="file" id="logofile" name="logo-file"></td>      			
-			      		</tr>           		
-			      		<tr>
-			      			<td class="t">&nbsp;</td>
-			      			<td class="s"><input id="infochange" type="button" value="기본설정 변경"></td>      			
-			      		</tr>           		
-			      	</table>
+				<form class="form-horizontal" id="logochangeform" action="${pageContext.request.contextPath}/${authUser.id}/admin/logochange" method="post" enctype="multipart/form-data">
+	 		      	<div class="form-group">
+		      			<label class="col-sm-2 control-label" for="blog-title">블로그 제목</label>
+		      			<div class="col-sm-10">
+		      				<input type="text" class="form-control" id="blog-title" name="title" value="${bVo.blogTitle }">
+		      			</div>
+			      	</div>
+			      	<div class="form-group">
+			      		<label class="col-sm-2 control-label" for="logoimg">로고이미지</label>
+			      		<div class="col-sm-10" id="logoimg">
+
+			      		</div>
+			      	</div>
+ 					<div class="form-group">
+ 						<label class="col-sm-2 control-label">로고 파일 설정</label>
+ 						<div class="col-sm-10">
+			      			<input type="file" id="logofile" name="logo-file"> 						
+ 						</div>
+ 					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="infochange">&nbsp;</label>
+						<div class="col-sm-10">
+							<input id="infochange" type="button" value="기본설정 변경">
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -66,7 +72,7 @@
 			
 			dataType : "json",
 			success : function(url){ /*성공시 처리해야될 코드 작성*/
-				$("#logoimg")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+				$("#logoimg")[0].innerHTML="<img style='height:300px;' src='${pageContext.request.contextPath}/"+url+"'>";
 			},
 			
 			error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/
@@ -134,7 +140,7 @@
 				
 				dataType : "json",
 				success : function(url){ /*성공시 처리해야될 코드 작성*/
-					$("#logoimg")[0].innerHTML="<img src='${pageContext.request.contextPath}/"+url+"'>";
+					$("#logoimg")[0].innerHTML="<img style='height:300px;' src='${pageContext.request.contextPath}/"+url+"'>";
 				},
 				
 				error : function(XHR, status, error) { /*실패시 처리해야될 코드 작성*/

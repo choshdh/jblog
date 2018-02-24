@@ -39,7 +39,7 @@
 			      		</tr>
 			      		<tr>
 			      			<td class="t" >내용</td>
-			      			<td><textarea name="postContent"></textarea></td>
+			      			<td><textarea name="postContent" style="width:100%; height:300px;"></textarea></td>
 			      		</tr>
 			      		<tr>
 			      			<td>&nbsp;</td>

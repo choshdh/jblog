@@ -19,7 +19,7 @@
 		<!-- /블로그 해더 -->
 
 		<div id="wrapper">
-			<div id="content" style="height:430px;">
+			<div id="content">
 				<ul class="list-group" style="height :25px; margin-top:5px; margin-bottom:5px;">
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-danger" href="${pageContext.request.contextPath}/${authUser.id}">내 블로그</a></li>
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-warning" href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
@@ -27,7 +27,7 @@
 					<li style="float:left; margin-left:5px;"><a style="padding: 0 5px 0 5px;" class="list-group-item list-group-item-success" href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-		      	<table class="table table-striped table-bordered table-hover" id="catelist" style="margin:5px">
+		      	<table class="table table-striped table-bordered table-hover" style="margin:5px">
 		      		<thead>
 			      		<tr>
 			      			<th width="10%">번호</th>
@@ -37,29 +37,34 @@
 			      			<th width="10%">삭제</th>
 			      		</tr>
 		      		</thead>
-		      		<tbody id="cateadd">
+		      		<tbody id="catelist">
 		      		
 		      		</tbody>
 				</table>
       	
-      			<div style="margin:5px">
-	      			<h4 class="n-c">새로운 카테고리 추가</h4>
-			      	<table id="admin-cat-add">
-			      		<tr>
-			      			<td class="t">카테고리명</td>
-			      			<td><input type="text" id="catename" name="name"></td>
-			      		</tr>
-			      		<tr>
-			      			<td class="t">설명</td>
-			      			<td><input type="text" id="description" name="desc"></td>
-			      		</tr>
-			      		<tr>
-			      			<td class="s">&nbsp;</td>
-			      			<td><input id="cateadd" type="button" value="카테고리 추가"></td>
-			      		</tr>      		      		
-			      	</table> 
+      			<div class="form-horizontal" style="margin:20px 0 0 5px;">
+	      			<h4 style="font:bold">새로운 카테고리 추가</h4>
+			      	<div id="admin-cat-add">
+			      		<div class="form-group">
+			      			<label class="col-sm-2 control-label" for="catename">카테고리명</label>
+			      			<div class="col-sm-10">
+			      				<input type="text" class="form-control" id="catename" name="name">
+			      			</div>
+			      		</div>
+			      		<div class="form-group">
+			      			<label class="col-sm-2 control-label" for='description'>설명</label>
+			      			<div class="col-sm-10">
+			      				<input type="text" class="form-control" id="description" name="desc">
+			      			</div>
+			      		</div>
+			      		<div class="form-group">			      		
+			      			<label class="col-sm-2 control-label" for="cateadd">&nbsp;</label>
+			      			<div class="col-sm-10">
+			      				<input id="cateadd" type="button" value="카테고리 추가">
+			      			</div>
+			      		</div>
+			      	</div>
       			</div>
-      			
 			</div>
 		</div>
 
@@ -93,6 +98,7 @@
 	});
 	
 	$("#cateadd").on("click",function(){
+		console.log("카테고리 추가버튼 클릭 이벤트 발생");
 		var userNo = ${authUser.userNo};
 		var cateName = $("#catename").val();
 		var description = $("#description").val();
@@ -172,7 +178,7 @@
 			"<td id='del'><img src='${pageContext.request.contextPath}/assets/images/delete.jpg' style='cursor:pointer' ></td>"+
 		"</tr>";
 		
-		$("#cateadd").append(str);
+		$("#catelist").append(str);
 	}
 	
 </script>
