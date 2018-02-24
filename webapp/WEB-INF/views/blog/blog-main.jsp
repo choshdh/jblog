@@ -101,7 +101,9 @@
 		 	 블로그의 사진 사용을 위해서 <br>
 		 	 spring-servlet.xml 파일과<br>
 		 	 LogoService 의<br>
-		 	  저장 폴더의 수정이 필요합니다.
+		 	  저장 폴더의 수정이 필요합니다.<br>
+		 	 테스트에 사용하실 수지 이미지 4개는 assets/images에 넣어두었습니다.<br>
+		 	 저장될 폴더에 붙여넣어 사용하시면됩니다.<br>
 			<label for="check">오늘 하루 이창 열지 않음</label>
 			<input type="checkbox" id="check"/>
 			<input type="button" id=bt value="닫기">
@@ -138,7 +140,7 @@
 		if($.cookie("nopopup")!="Y"){
 			console.log("쿠키 div 보이기");
 			var wsize = 310;
-			var hsize = 200;
+			var hsize = 250;
 			var LeftPosition = (screen.width-wsize)/2;
 			var TopPosition = (screen.height-hsize)/2-120;
 			$("#pop").css({"display":"block","width":wsize,"height":hsize ,"position":"absolute","left":LeftPosition,"top":TopPosition});
